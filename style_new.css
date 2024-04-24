@@ -1,0 +1,175 @@
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  background-image: url(I_see_red_1.jpeg);
+  /* how to add the image https://www.w3schools.com/htmL/html_images_background.asp */
+  content: "Jaune Quick-to-See Smith: I see Red";
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: Arial;
+  margin: 0;
+  z-index: -1;
+  /* placing background image behind the content of the page https://www.w3schools.com/cssref/tryit.php?filename=trycss_zindex*/
+}
+
+/* Header */
+.header {
+  padding: 30px;
+  text-align: center;
+}
+
+/* Increase the font size h1 in heading */
+.header h1 {
+  font-size: 40px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%;
+  background-color: #ff8533;
+  border: 5px solid #ff0000;
+  padding: 10px;
+  text-align: center;
+  border-radius: 50px;
+  color: #ff0000;
+  margin: 25px auto;
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    width: 120%;
+  }
+}
+
+#SenatorLeaderShipRoles {
+  background-color: #ff8533;
+  width: 85%;
+  border: 5px solid #ff0000;
+  padding: 0.5%;
+  text-align: center;
+  border-radius: 50px 50px;
+  color: #ff0000;
+  /*making borders round https://www.w3schools.com/cssref/css3_pr_border-radius.php*/
+}
+
+#leadershipRoles {
+  background-color: #ff8533;
+  width: 85%;
+  border: 5px solid #ff0000;
+  padding: 0px;
+  margin: 0 auto 1px;
+  text-align: center;
+  border-radius: 50px 50px;
+  color: #ff0000;
+  display: flex;
+  flex-direction: column;
+}
+
+#ListSenators {
+  background-color: #ff8533;
+  width: 85%;
+  border: 5px solid #ff0000;
+  padding: 0px;
+  margin: 0 auto 2px;
+  text-align: center;
+  border-radius: 50px 50px;
+  color: #ff0000;
+  display: flex;
+}
+
+/* list formating*/
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  margin-top: -1px;
+  padding: 12px;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 1.5%;
+  font-weight: bold;
+  font-family: 'Helvetica';
+  color: #76e7e7;
+  border-radius: 50px 50px;
+  border: 5px solid #ff8533;
+  background-color: #ff0000;
+  width: 30%;
+  margin: 20px auto;
+  text-align: center;
+}
+
+footer {
+  float: right;
+  padding: 2px;
+  padding: 5px;
+}
+
+/* Popup Window */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+/* Popup Window X */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Filter Tags */
+select {
+  background-color: #bedee2;
+  color: #2e0d0d;
+}
+
+select:focus option:checked {
+  background-color: #afafda;
+  color: #00004d;
+}
+
+.footer:hover {
+  background-color:#c50303;
+}

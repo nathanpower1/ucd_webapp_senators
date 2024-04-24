@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>United States Senators</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style_new.css">
+</head>
+
+<body>
+
+    <!-- creating flex boxes https://www.w3schools.com/csS/css3_flexbox.asp-->
+    <div class="container">
+        <div id="SenatorLeaderShipRoles">
+            <h1>Senator Leadership Roles</h1>
+        </div>
+        <div id="leadershipRoles">
+            <h2>Democratic Senators with Leadership Roles</h2>
+            <ul id="democraticLeadershipRoles">
+                <!-- Democratic senators with leadership roles will be displayed here -->
+            </ul>
+
+            <h2>Republican Senators with Leadership Roles</h2>
+            <ul id="republicanLeadershipRoles">
+                <!-- Republican senators with leadership roles will be displayed here -->
+            </ul>
+        </div>
+
+
+        <div class="ListSenators">
+            <h1>List of All Senators</h1>
+        </div>
+
+        <!-- List below provides full list of senators with filters to control output -->
+        <!-- Filter by Party -->
+        <label for="partyFilter">Filter by Party:</label>
+        <select id="partyFilter">
+            <option value="all">Show All</option>
+            <option value="Republican">Republican</option>
+            <option value="Democrat">Democrat</option>
+            <option value="Independent">Independent</option>
+        </select>
+
+        <!-- Filter by State -->
+        <label for="stateFilter">Filter by State:</label>
+        <select id="stateFilter">
+            <option value="all">Show All</option>
+            <option value="ID">Idaho</option>
+            <option value="IA">Iowa</option>
+            <option value="VT">Vermont</option>
+            <option value="HI">Hawaii</option>
+            <option value="CA">California</option>
+            <option value="FL">Florida</option>
+            <option value="CO">Colorado</option>
+            <option value="TX">Texas</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="AK">Alaska</option>
+            <option value="OH">Ohio</option>
+            <option value="NJ">New Jersey</option>
+            <option value="AL">Alabama</option>
+            <option value="NC">North Carolina</option>
+            <option value="MN">Minnesota</option>
+            <option value="MA">Massachusetts</option>
+            <option value="AZ">Arizona</option>
+            <option value="TN">Tennessee</option>
+            <option value="MI">Michigan</option>
+            <option value="CT">Connecticut</option>
+            <option value="OR">Oregan</option>
+            <option value="MD">Maryland</option>
+            <option value="SC">South Carolina</option>
+            <option value="MT">Montana</option>
+            <option value="GA">Georgia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="UT">Utah</option>
+            <option value="ME">Maine</option>
+            <option value="IL">Illinois</option>
+            <option value="VA">Virginia</option>
+            <option value="MO">Missouri</option>
+            <option value="NH">New Hampshire</option>
+            <option value="KY">Kentucky</option>
+            <option value="OK">Oklahoma</option>
+            <option value="RI">Rhode Island</option>
+            <option value="NM">New Mexico</option>
+            <option value="NE">Nebraska</option>
+            <option value="WA">Washington</option>
+            <option value="AR">Arkansas</option>
+            <option value="LA">Louisiana</option>
+            <option value="WY">Wyoming</option>
+            <option value="IN">Indiana</option>
+            <option value="NV">Nevada</option>
+            <option value="MS">Mississippi</option>
+            <option value="KS">Kansas</option>
+            <option value="DE">Delaware</option>
+            <option value="WV">West Virginia</option>
+            <option value="SD">South Dakota</option>
+            <option value="ND">North Dakota</option>
+            <option value="NY">New York</option>
+        </select>
+
+        <!-- Filter by Rank -->
+
+        <label for="rankFilter">Filter by Rank:</label>
+        <select id="rankFilter">
+            <option value="all">Show All</option>
+            <option value="senior">Senior</option>
+            <option value="junior">Junior</option>
+        </select>
+
+        <!-- This provides a count of all senators after filters are applied -->
+
+        <div id="senatorCounts">
+            <p>Total Senators: <span id="totalSenators">0</span></p>
+            <p>Total Democrats: <span id="totalDemocrats">0</span></p>
+            <p>Total Republicans: <span id="totalRepublicans">0</span></p>
+            <p>Total Independent: <span id="totalIndependent">0</span></p>
+        </div>
+
+        <ul id="senatorList">
+            <!-- Senator data displayed here -->
+        </ul>
+
+        <div id="senatorDetailsPopup" class="popup"> <!-- Details that will appear on PopUp window when clicked-->
+            <div class="popup-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <h2 id="senatorName"></h2>
+                <p>Office: <span id="office"></span></p>
+                <p>Date of Birth: <span id="dateOfBirth"></span></p>
+                <p>Start Date: <span id="startDate"></span></p>
+                <p>Twitter ID: <span id="twitterId"></span></p>
+                <p>YouTube ID: <span id="youtubeId"></span></p>
+                <p>Website: <a href="#" id="website" target="_blank">Visit Website</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="footer" onclick="scrollToTop()" > <!-- retruns to top of page when clicked-->
+        <h2>Return to Top</h2>
+    </div>
+    <script>
+        let senatorData = [];
+
+            // List of constants needed throughout the code 
+        const leadershipRoles = document.getElementById("leadershipRoles"); 
+        const democraticLeadershipRoles = document.getElementById("democraticLeadershipRoles");
+        const republicanLeadershipRoles = document.getElementById("republicanLeadershipRoles");
+        const senatorDetails = document.getElementById("senatorDetails");
+        const senatorNameElement = document.getElementById("senatorName");
+        const officeElement = document.getElementById("office");
+        const dateOfBirthElement = document.getElementById("dateOfBirth");
+        const startDateElement = document.getElementById("startDate");
+        const twitterIdElement = document.getElementById("twitterId");
+        const youtubeIdElement = document.getElementById("youtubeId");
+        const websiteElement = document.getElementById("website");
+        const senatorDetailsPopup = document.getElementById("senatorDetailsPopup");
+
+        function openPopup(senator) { // Opens a popup window when a name is clicked
+            senatorNameElement.textContent = senator.person.name;
+            officeElement.textContent = senator.extra.office || "N/A"; // || means "or", this way if data not available it prints "N/A" instead
+            dateOfBirthElement.textContent = senator.person.birthday || "N/A";
+            startDateElement.textContent = senator.startdate || "N/A";
+            twitterIdElement.textContent = senator.person.twitterid || "N/A";
+            youtubeIdElement.textContent = senator.person.youtubeid || "N/A";
+            websiteElement.href = senator.website;
+            websiteElement.style.display = senator.website ? "block" : "none";  // ? works as an if function
+
+            senatorDetailsPopup.style.display = "block";
+        }
+
+        function closePopup() { //Closes Popup Window 
+            senatorDetailsPopup.style.display = "none";
+        }
+
+
+        // Function to extract and display leadership roles
+        function displayLeadershipRoles() {
+            senatorData.objects.forEach((senator) => {
+                const leadershipTitle = senator.leadership_title;
+                if (leadershipTitle) {
+                    const senatorName = senator.person.name; //If they have a leadership role then add 
+                    const party = senator.party;
+
+                    const listItem = document.createElement("li");
+                    listItem.textContent = `${leadershipTitle}: 
+                        ${senator.person.firstname + " " + senator.person.nickname + " " + senator.person.lastname}
+                        (${party})`;
+
+                    if (party === "Democrat") {
+                        democraticLeadershipRoles.appendChild(listItem);
+                    } else if (party === "Republican") {
+                        republicanLeadershipRoles.appendChild(listItem);
+                    } else if (party === "Independet") {
+                        IndependentLeadershipRoles.appendChild(listItem);
+                    }
+                }
+            });
+        }
+
+
+        const partyFilter = document.getElementById("partyFilter");
+        const stateFilter = document.getElementById("stateFilter");
+        const rankFilter = document.getElementById("rankFilter");
+        const senatorList = document.getElementById("senatorList");
+
+        // Counts and updates the number of senators, Democrats, Independent and Republicans
+        function updateCounts(filteredData) {
+            const totalSenators = filteredData.length;
+            const totalDemocrats = filteredData.filter(senator => senator.party === "Democrat").length;
+            const totalRepublicans = filteredData.filter(senator => senator.party === "Republican").length;
+            const totalIndependent = filteredData.filter(senator => senator.party === "Independent").length;
+
+            document.getElementById("totalSenators").textContent = totalSenators;
+            document.getElementById("totalDemocrats").textContent = totalDemocrats;
+            document.getElementById("totalRepublicans").textContent = totalRepublicans;
+            document.getElementById("totalIndependent").textContent = totalIndependent;
+        }
+
+        // Function to populate the senator list with filtered data
+        function populateSenators() {
+            const selectedParty = partyFilter.value;
+            const selectedState = stateFilter.value;
+            const selectedRank = rankFilter.value;
+
+            senatorList.innerHTML = "";
+
+            const filteredData = senatorData.objects.filter((senator) => { 
+                return (
+                    (selectedParty === "all" || selectedParty === senator.party) && //&& is the AND operator
+                    (selectedState === "all" || selectedState === senator.state) &&
+                    (selectedRank === "all" || selectedRank === senator.senator_rank)
+                );
+            });
+
+            filteredData.forEach((senator) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `Name: ${senator.person.firstname + " " + senator.person.nickname + " " + senator.person.lastname},
+                        Party: ${senator.party}, 
+                        State: ${senator.state}, 
+                        Rank: ${senator.senator_rank}`;
+                listItem.addEventListener("click", () => openPopup(senator));
+                senatorList.appendChild(listItem);
+            });
+            // Update the counts
+            updateCounts(filteredData);
+        }
+
+        function scrollToTop() { // Function to ScrolltoTop from footer
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // For smooth scrolling 
+            });
+        }
+
+
+        // Fetch and load the external JSON data
+        fetch("senators.json")
+            .then(response => response.json())
+            .then(data => {
+                senatorData = data;
+                // Call the populateSenators function with the loaded data
+                populateSenators();
+                // Call function 
+                displayLeadershipRoles();
+            })
+            .catch(error => {
+                console.error("Error loading JSON data: ", error);
+            });
+
+        // Add event listeners to the filters to update the senator list when the selection changes
+        partyFilter.addEventListener("change", populateSenators);
+        stateFilter.addEventListener("change", populateSenators);
+        rankFilter.addEventListener("change", populateSenators);
+    </script>
+</body>
+
+</html>
